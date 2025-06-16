@@ -62,6 +62,7 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Uint8Array(8))
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -85,6 +86,12 @@ const App = () => {
     setBad(bad+1)
   }
 
+  const addVote = () => {
+    const copy = [...votes]
+    copy[selected] += 1   
+    setVotes(copy) 
+  }
+
   const generateRandomNumber = () => {
     setSelected(Math.floor(Math.random() * 8))
    
@@ -103,6 +110,8 @@ const App = () => {
       : <Title title="No Feedback Given" />}
       
       <br></br>{anecdotes[selected]}<br></br>
+      <p>{votes[selected]}</p>
+      <Button onClick={addVote} title="Vote for this Anecdotes" />  
       <Button onClick={generateRandomNumber} title="Next Anecdotes" />  
 
     </div>
