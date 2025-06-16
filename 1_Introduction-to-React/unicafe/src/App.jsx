@@ -24,7 +24,7 @@ const Statistics = (props) => {
     let neutral = props.neutral
     let bad = props.bad
     let title = props.title
-    
+
     let sumOfAll = good + neutral + bad
     let average = (good*1) + (bad*-1)
     let pctOfPositive = (good*100)/sumOfAll
@@ -72,7 +72,11 @@ const App = () => {
       <Button onClick={handleNeutralClick} title="Neutral" />
       <Button onClick={handleBadClick} title="Bad" />
 
-      <Statistics title='Statistics' good={good} neutral={neutral} bad={bad} />
+      
+      {(good > 0 || bad > 0 || neutral > 0) 
+      ? <Statistics title='Statistics' good={good} neutral={neutral} bad={bad} />
+      : <Title title="No Feedback Given" />}
+      
 
     </div>
   )
