@@ -12,7 +12,7 @@ const Button = ({onClick, title}) => {
   )
 }
 
-const Result = ({title, value}) => {
+const StatisticLine = ({title, value}) => {
   return (
     <p>{title}: {value}</p>
   )
@@ -26,7 +26,7 @@ const Statistics = (props) => {
     let title = props.title
 
     let sumOfAll = good + neutral + bad
-    let average = (good*1) + (bad*-1)
+    let average = (good*1) + (bad*-1) 
     let pctOfPositive = (good*100)/sumOfAll
     
     if (isNaN(pctOfPositive)) {
@@ -36,12 +36,12 @@ const Statistics = (props) => {
     return (
       <div>
         <Title title={title} />
-        <Result title='Good' value={good} />
-        <Result title='Neutral' value={neutral} />
-        <Result title='Bad' value={bad} />
-        <Result title='All' value={sumOfAll} />
-        <Result title='Average' value={average} />
-        <Result title='Positive Percentage' value={pctOfPositive} />
+        <StatisticLine title='Good' value={good} />
+        <StatisticLine title='Neutral' value={neutral} />
+        <StatisticLine title='Bad' value={bad} />
+        <StatisticLine title='All' value={sumOfAll} />
+        <StatisticLine title='Average' value={average} />
+        <StatisticLine title='Positive Percentage' value={pctOfPositive} />
       </div>
     )
 
