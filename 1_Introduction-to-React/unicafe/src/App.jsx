@@ -55,6 +55,20 @@ const Statistics = (props) => {
 
 }
 
+const MostVoted = (props) => {
+  const votes = props.votes
+  const title = props.title
+  const anecdote = props.anecdote
+
+
+  return (
+    <div>
+      <Title title={title} />
+      <p>{votes} - {anecdote} </p>
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -63,6 +77,9 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(8))
+  const [mostVoted, setMostVoted] = useState(0)
+  const [qtdOfVotes, setQtdOfVotes] = useState(0)
+
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -89,6 +106,11 @@ const App = () => {
   const addVote = () => {
     const copy = [...votes]
     copy[selected] += 1   
+    console.log('selected', selected)
+    if(qtdOfVotes < copy[selected]) {
+      setQtdOfVotes(copy[selected])
+      setMostVoted(selected)
+    } 
     setVotes(copy) 
   }
 
@@ -114,6 +136,10 @@ const App = () => {
       <Button onClick={addVote} title="Vote for this Anecdotes" />  
       <Button onClick={generateRandomNumber} title="Next Anecdotes" />  
 
+      {(qtdOfVotes > 0) 
+      && <MostVoted title="Most voted anecdotes" votes={qtdOfVotes} anecdote={anecdotes[mostVoted]}/>
+      }
+      
     </div>
   )
 }
