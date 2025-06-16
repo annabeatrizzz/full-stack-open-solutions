@@ -18,6 +18,35 @@ const Result = ({title, value}) => {
   )
 }
 
+const Statistics = (props) => {
+
+    let good = props.good
+    let neutral = props.neutral
+    let bad = props.bad
+    let title = props.title
+    
+    let sumOfAll = good + neutral + bad
+    let average = (good*1) + (bad*-1)
+    let pctOfPositive = (good*100)/sumOfAll
+    
+    if (isNaN(pctOfPositive)) {
+      pctOfPositive = 0
+    }
+
+    return (
+      <div>
+        <Title title={title} />
+        <Result title='Good' value={good} />
+        <Result title='Neutral' value={neutral} />
+        <Result title='Bad' value={bad} />
+        <Result title='All' value={sumOfAll} />
+        <Result title='Average' value={average} />
+        <Result title='Positive Percentage' value={pctOfPositive} />
+      </div>
+    )
+
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -36,10 +65,6 @@ const App = () => {
     setBad(bad+1)
   }
 
-  const sumOfAll = good + neutral + bad
-  const average = (good*1) + (bad*-1)
-  const pctOfPositive = (good*100)/sumOfAll
-
   return (
     <div>
       <Title title="Give Feedback" />
@@ -47,13 +72,7 @@ const App = () => {
       <Button onClick={handleNeutralClick} title="Neutral" />
       <Button onClick={handleBadClick} title="Bad" />
 
-     <Title title="Statistics" />
-      <Result title='Good' value={good} />
-      <Result title='Neutral' value={neutral} />
-      <Result title='Bad' value={bad} />
-      <Result title='All' value={sumOfAll} />
-      <Result title='Average' value={average} />
-      <Result title='Positive Percentage' value={pctOfPositive} />
+      <Statistics title='Statistics' good={good} neutral={neutral} bad={bad} />
 
     </div>
   )
