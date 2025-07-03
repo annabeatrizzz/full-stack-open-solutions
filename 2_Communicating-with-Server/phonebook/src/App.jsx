@@ -14,8 +14,13 @@ const App = () => {
   const handleForm = (event) => {
     event.preventDefault()
     console.log(newName)
+
     const person = {
       name: newName,
+    }
+
+    if(newName === '' || persons.some(p => p.name === newName)) {
+      return window.alert(`${newName} is already added to phonebook`)
     }
 
     setPersons(persons.concat(person))
@@ -30,7 +35,7 @@ const App = () => {
           name: <input value={newName} onChange={handleNewName}/>
         </div>
         <div>
-          <button type="submit">add</button>
+          <button type="submit">Add Contact</button>
         </div>
       </form>
 
