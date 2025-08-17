@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Filter from './components/Filter.jsx'
+import Contacts from './components/Contacts.jsx'
+import PersonForm from './components/PersonForm.jsx'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -21,6 +24,18 @@ const App = () => {
   const handleNewNumber = (event) => {
     setNewNumber(event.target.value)
   }
+
+  const handleSearch = (event) => {
+    setContactName(event.target.value)
+    console.log(contactName)
+
+
+    const personsFiltered = persons.filter(p => p.name.toLowerCase().includes(contactName.toLowerCase()))
+    if (personsFiltered.length === 0) {
+      return window.alert('Person not found')
+    }
+    setPersons(personsFiltered)
+  } 
 
   const handleForm = (event) => {
     event.preventDefault()
@@ -47,40 +62,17 @@ const App = () => {
     setNewNumber(defaultNumber)
   }
 
-  const handleSearch = (event) => {
-    setContactName(event.target.value)
-    console.log(contactName)
-
-    const personsFiltered = persons.filter(p => p.name.toLowerCase().includes(contactName.toLowerCase()))
-    setPersons(personsFiltered)
-  }
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <h2>Search</h2>
-      <div>
-          Filter contacts lists with: <input value={contactName} onChange={handleSearch}/>
-      </div>
-      
-      <form onSubmit={handleForm}> 
-        <h2>New contact</h2>
-        <div>
-          Name: <input value={newName} onChange={handleNewName}/>
-        </div>
-        <div>
-          Number: <input value={newNumber} onChange={handleNewNumber}/>
-        </div>
-        <div>
-          <button type="submit">Add Contact</button>
-        </div>
-      </form>
+      <Filter contactName={contactName} handleSearch={handleSearch} ></Filter>
 
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map((person, i) => <li key={i}>`{person.name} - {person.phone}`</li>)}
-      </ul>
+      <PersonForm handleForm={handleForm} newName={newName} handleNewName={handleNewName} newNumber={newNumber} handleNewNumber={handleNewNumber}></PersonForm>
+
+      <Contacts persons={persons}></Contacts>
+     
     </div>
   )
 }
