@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter.jsx'
 import Contacts from './components/Contacts.jsx'
 import PersonForm from './components/PersonForm.jsx'
-import { getAll, create, deletePerson } from './services/persons.js'
+import { getAll, create, update, deletePerson } from './services/persons.js'
 
 const App = () => {
   const defaultName = 'New name'
@@ -44,8 +44,18 @@ const App = () => {
 
     if (newName === '') {
       return window.alert(`Name inserted not valid`)
-    } else if (persons.some(p => p.name === newName)) {
-      return window.alert(`${newName} is already added to phonebook`)
+    } 
+    
+    const p = persons.filter(p => p.name === newName)
+    if (p) {
+      const result = window.confirm('Person is already in the Phonebook. Want to update the contact with the new number?')
+      if (result) {
+        update(person,  p[0].id)
+          .then(response => {
+            setPersons(persons.map(p => p.name === person.name ? response.data : p))
+          })
+      } 
+      return
     }     
     
     if (newNumber === '') {
@@ -69,7 +79,7 @@ const App = () => {
   useEffect(getPersons, [])
 
   const deletePersonById = (id) => {
-    var personToDelete = persons.filter(p => id === p.id)
+    let personToDelete = persons.filter(p => id === p.id)
     personToDelete = personToDelete[0]
     const result = window.confirm(`Do you wish to delete the person ${personToDelete.name}`)
 
