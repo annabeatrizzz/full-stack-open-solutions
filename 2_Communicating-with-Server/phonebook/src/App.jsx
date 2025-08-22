@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter.jsx'
 import Contacts from './components/Contacts.jsx'
 import PersonForm from './components/PersonForm.jsx'
+import { getAll, create } from './services/persons.js'
 
 const App = () => {
   const defaultName = 'New name'
@@ -39,7 +39,7 @@ const App = () => {
 
     const person = {
       name: newName, 
-      phone: newNumber
+      number: newNumber
     }
 
     if (newName === '') {
@@ -52,15 +52,19 @@ const App = () => {
       return window.alert(`Number inserted not valid`)
     }  
 
-    setPersons(persons.concat(person))
-    setNewName(defaultName)
-    setNewNumber(defaultNumber)
+    create(person)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName(defaultName)
+        setNewNumber(defaultNumber)
+      })
   }
 
   const getPersons = () => {
-    axios.get('http://localhost:3001/persons').then(response => {
-      setPersons(response.data)
-    })
+    getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
   }
   useEffect(getPersons, [])
 
