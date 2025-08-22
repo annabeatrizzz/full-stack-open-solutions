@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter.jsx'
 import Contacts from './components/Contacts.jsx'
 import PersonForm from './components/PersonForm.jsx'
-import { getAll, create } from './services/persons.js'
+import { getAll, create, deletePerson } from './services/persons.js'
 
 const App = () => {
   const defaultName = 'New name'
@@ -68,6 +68,22 @@ const App = () => {
   }
   useEffect(getPersons, [])
 
+  const deletePersonById = (id) => {
+    var personToDelete = persons.filter(p => id === p.id)
+    personToDelete = personToDelete[0]
+    const result = window.confirm(`Do you wish to delete the person ${personToDelete.name}`)
+
+    if (!result) {
+      return
+    } 
+
+    deletePerson(id)
+      .then(response => {
+        console.log('Delete person clicked')
+        setPersons(persons.filter(p => (p.id !== id)))
+      })
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -76,7 +92,7 @@ const App = () => {
 
       <PersonForm handleForm={handleForm} newName={newName} handleNewName={handleNewName} newNumber={newNumber} handleNewNumber={handleNewNumber}></PersonForm>
 
-      <Contacts persons={persons}></Contacts>
+      <Contacts persons={persons} deleteMethod={deletePersonById}></Contacts>
      
     </div>
   )
