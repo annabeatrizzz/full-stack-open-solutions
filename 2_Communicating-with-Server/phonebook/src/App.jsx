@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { getAll, create, update, deletePerson } from './services/persons.js'
+
 import Filter from './components/Filter.jsx'
 import Contacts from './components/Contacts.jsx'
 import PersonForm from './components/PersonForm.jsx'
-import { getAll, create, update, deletePerson } from './services/persons.js'
+import Notification from './components/Notification.jsx'
 
 const App = () => {
   const defaultName = 'New name'
@@ -11,6 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState(defaultName)
   const [contactName, setContactName] = useState('')
   const [newNumber, setNewNumber] = useState(defaultNumber)
+  const [message, setMessage] = useState(null)
 
   const handleNewName = (event) => {
     setNewName(event.target.value)
@@ -32,6 +35,13 @@ const App = () => {
     setPersons(personsFiltered)
   } 
 
+  const showMessage = (msg) => {
+    setMessage(msg)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+  }
+
   const handleForm = (event) => {
     event.preventDefault()
     console.log(newName)
@@ -47,13 +57,16 @@ const App = () => {
     } 
     
     const p = persons.filter(p => p.name === newName)
-    if (p) {
+    if (p.length > 0) {
       const result = window.confirm('Person is already in the Phonebook. Want to update the contact with the new number?')
       if (result) {
         update(person,  p[0].id)
           .then(response => {
             setPersons(persons.map(p => p.name === person.name ? response.data : p))
+            setNewName(defaultName)
+            setNewNumber(defaultNumber)
           })
+        showMessage("Contact got updated")
       } 
       return
     }     
@@ -68,6 +81,8 @@ const App = () => {
         setNewName(defaultName)
         setNewNumber(defaultNumber)
       })
+
+    showMessage('Contact created')
   }
 
   const getPersons = () => {
@@ -97,6 +112,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message}></Notification>
 
       <Filter contactName={contactName} handleSearch={handleSearch} ></Filter>
 
