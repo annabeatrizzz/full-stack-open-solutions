@@ -14,6 +14,7 @@ const App = () => {
   const [contactName, setContactName] = useState('')
   const [newNumber, setNewNumber] = useState(defaultNumber)
   const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState('error')
 
   const handleNewName = (event) => {
     setNewName(event.target.value)
@@ -35,10 +36,12 @@ const App = () => {
     setPersons(personsFiltered)
   } 
 
-  const showMessage = (msg) => {
+  const showMessage = (msg, type) => {
     setMessage(msg)
+    setMessageType(type)
         setTimeout(() => {
           setMessage(null)
+          setMessageType(type)
         }, 5000)
   }
 
@@ -63,10 +66,13 @@ const App = () => {
         update(person,  p[0].id)
           .then(response => {
             setPersons(persons.map(p => p.name === person.name ? response.data : p))
-            setNewName(defaultName)
-            setNewNumber(defaultNumber)
           })
-        showMessage("Contact got updated")
+          .catch(error => {
+            showMessage(`Information ${newName} from has already been removed from the contact list`, 'error')
+          })
+        showMessage("Contact got updated", 'success')
+        setNewName(defaultName)
+        setNewNumber(defaultNumber)
       } 
       return
     }     
@@ -82,7 +88,7 @@ const App = () => {
         setNewNumber(defaultNumber)
       })
 
-    showMessage('Contact created')
+    showMessage('Contact created', 'success')
   }
 
   const getPersons = () => {
@@ -107,13 +113,14 @@ const App = () => {
         console.log('Delete person clicked')
         setPersons(persons.filter(p => (p.id !== id)))
       })
+      showMessage('Contact deleted', 'success')
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={message}></Notification>
+      <Notification type={messageType} message={message}></Notification>
 
       <Filter contactName={contactName} handleSearch={handleSearch} ></Filter>
 
