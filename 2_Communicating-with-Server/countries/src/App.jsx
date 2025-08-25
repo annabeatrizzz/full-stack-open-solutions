@@ -40,6 +40,8 @@ function App() {
       setBtnText('Info')
     } else if (size === 1) {
       setMessage()
+      setPossibleCountries([]);
+      setBtnText('')
       get(options[0])
       .then(response => {
         console.log(response.data)

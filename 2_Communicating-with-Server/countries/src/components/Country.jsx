@@ -1,9 +1,12 @@
 import List from './List'
+import Weather from './Wheather'
 
 const Country = ( {countryInfo} ) => {
     if (!countryInfo) { 
         return null 
     }
+
+    const capitalInfo = countryInfo['capitalInfo']
 
     return(
         <div>
@@ -14,6 +17,8 @@ const Country = ( {countryInfo} ) => {
             <List title='Languages' items={countryInfo['languages']}></List>
         
             <img alt={countryInfo['flags']['alt']} src={countryInfo['flags']['png']}></img>
+
+            <Weather lat={capitalInfo['latlng']}></Weather>
         </div>
     )
 }
