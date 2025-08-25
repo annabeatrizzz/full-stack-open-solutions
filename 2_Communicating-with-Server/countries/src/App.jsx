@@ -8,6 +8,7 @@ import CountriesForm from './components/CountriesForm.jsx'
 function App() {
   const [country, setCountry] = useState('')
   const [message, setMessage] = useState('')
+  const [btnText, setBtnText] = useState('')
   const [countries, setCountries] = useState(null)
   const [countryInfo, setCountryInfo] = useState(null)
   const [possibleCountries, setPossibleCountries] = useState()
@@ -36,6 +37,7 @@ function App() {
     } else if (size <= 10 && size > 1) {
       setMessage('')
       setPossibleCountries(options)
+      setBtnText('Info')
     } else if (size === 1) {
       setMessage()
       get(options[0])
@@ -48,11 +50,23 @@ function App() {
     }
   } 
 
+  const btnAction = (country) => {
+    setMessage()
+    setPossibleCountries(null)
+    setBtnText('')
+    get(country)
+    .then(response => {
+      console.log(response.data)
+      setCountryInfo(response.data)
+    })
+
+  }
+
   return (
     <div>
       <CountriesForm onChange={countryRequestEntry} msg={message}></CountriesForm>
       <Country countryInfo={countryInfo}></Country>
-      <List title='' items={possibleCountries}></List>
+      <List items={possibleCountries} btn={btnText} btnAction={btnAction}></List>
     </div>
   )
 }

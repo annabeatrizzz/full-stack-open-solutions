@@ -10,7 +10,7 @@ const List = (props) => {
         <div>
             <h2>{props.title}</h2>
             <ul>
-                {listItems.map((item, index) => <li key={index}>{item}</li>)}
+                {listItems.map((item, index) => <li key={index}>{item} <button className='btn' onClick={() => props.btnAction(item)}>{props.btn}</button></li>)}
             </ul>
 
         </div>
