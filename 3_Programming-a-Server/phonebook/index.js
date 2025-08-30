@@ -41,6 +41,12 @@ app.get('/api/person/:id', (request, response) => {
   response.status(404).end()
 })
 
+app.delete('/api/person/:id', (request, response) => {
+  const id = request.params.id
+  persons = persons.filter(p => p.id !== id)
+  response.status(204).end()
+})
+
 app.get('/api/info', (request, response) => {
   const personsSize = persons.length 
   const today = new Date();
