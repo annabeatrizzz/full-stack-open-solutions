@@ -32,6 +32,15 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
+app.get('/api/person/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(p => p.id === id)
+  if (person) {
+      response.json(person)  
+  }
+  response.status(404).end()
+})
+
 app.get('/api/info', (request, response) => {
   const personsSize = persons.length 
   const today = new Date();
