@@ -1,4 +1,5 @@
 const express = require('express')
+let morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
@@ -31,6 +32,7 @@ const generateId = () => {
 }
 
 app.get('/', (request, response) => {
+  app.use(morgan('tiny'))
   response.send('<h1>Welcome to your phonebook :)</h1>')
 })
 
