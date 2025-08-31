@@ -3,6 +3,16 @@ let morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(morgan((tokens, request, response) => {
+    return [
+      tokens.method(request, response),
+      tokens.url(request, response),
+      tokens.status(request, response),
+      tokens.res(request, request, 'content-length'), '-',
+      tokens['response-time'](request, response), 'ms',
+      JSON.stringify(request.body)
+    ].join(' ')
+  }))
 
 let persons = [
     { 
@@ -28,11 +38,10 @@ let persons = [
 ]
 
 const generateId = () => {
-  return Math.floor(Math.random() * 100000000000000000);
+  return Math.floor(Math.random() * 100000000000000000).toString();
 }
 
 app.get('/', (request, response) => {
-  app.use(morgan('tiny'))
   response.send('<h1>Welcome to your phonebook :)</h1>')
 })
 
@@ -72,8 +81,9 @@ app.get('/api/person/:id', (request, response) => {
   const person = persons.find(p => p.id === id)
   if (person) {
       response.json(person)  
+  } else {
+    response.status(404).end()
   }
-  response.status(404).end()
 })
 
 app.delete('/api/person/:id', (request, response) => {
