@@ -2,6 +2,9 @@ const express = require('express')
 let morgan = require('morgan')
 const app = express()
 
+const cors = require('cors')
+app.use(cors())
+
 app.use(express.json())
 app.use(morgan((tokens, request, response) => {
     return [
@@ -76,7 +79,7 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
-app.get('/api/person/:id', (request, response) => {
+app.get('/api/persos/:id', (request, response) => {
   const id = request.params.id
   const person = persons.find(p => p.id === id)
   if (person) {
@@ -86,8 +89,9 @@ app.get('/api/person/:id', (request, response) => {
   }
 })
 
-app.delete('/api/person/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
+  console.log('id on the back', id)
   persons = persons.filter(p => p.id !== id)
   response.status(204).end()
 })
