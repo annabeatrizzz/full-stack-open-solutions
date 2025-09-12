@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:3001/persons'
+const url = '/api/persons'
 
 const getAll = () => {
     return axios
@@ -18,6 +18,7 @@ const update = (newPerson, id) => {
 }
 
 const deletePerson = (id) => {
+    console.log('id on the front', id)
     return axios
         .delete(`${url}/${id}`)
 }
