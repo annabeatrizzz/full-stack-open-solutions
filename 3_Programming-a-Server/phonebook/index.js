@@ -72,10 +72,10 @@ app.get('/api/persos/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  console.log('id on the back', id)
-  persons = persons.filter(p => p.id !== id)
-  response.status(204).end()
+  Person.findByIdAndDelete(request.params.id).then(result => {
+    response.status(204).end()
+  })
+  .catch(error => console.log('Delete not successfull: ', error.messsage))
 })
 
 app.get('/api/info', (request, response) => {
