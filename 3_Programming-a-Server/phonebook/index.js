@@ -21,10 +21,6 @@ app.use(morgan((tokens, request, response) => {
     ].join(' ')
   }))
 
-const generateId = () => {
-  return Math.floor(Math.random() * 100000000000000000).toString();
-}
-
 app.get('/', (request, response) => {
   response.send('<h1>Welcome to your phonebook :)</h1>')
 })
@@ -45,12 +41,6 @@ app.post('/api/persons', (request, response) => {
     })
   }
 
-  /*if (persons.find(p => p.name === body.name)) {
-    return response.status(400).json({ 
-      error: 'name already in the phonebook' 
-    })
-  }*/
-
   const person = new Person({
     name: body.name,
     number: body.number,
@@ -61,7 +51,7 @@ app.post('/api/persons', (request, response) => {
   })
 })
 
-app.get('/api/persos/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
   const person = persons.find(p => p.id === id)
   if (person) {
@@ -69,6 +59,25 @@ app.get('/api/persos/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+
+  Person.findById(request.params.id)
+    .then(person => {
+      if (!person) {
+        return response.status(404).end()
+      }
+
+      person.name = name
+      person.number = number
+
+      return person.save().then((updatedPerson) => {
+        response.json(updatedPerson)
+      })
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
