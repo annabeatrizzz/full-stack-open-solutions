@@ -1,8 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-console.log('test', process.env.PORT)
-
 mongoose.set('strictQuery',false)
 
 //Connect to DB
@@ -17,7 +15,11 @@ mongoose.connect(url)
 
 //Document schema
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minLength: 5,
+    required: true
+  },
   number: String,
 })
 

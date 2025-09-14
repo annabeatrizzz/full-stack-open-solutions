@@ -85,10 +85,13 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response.data))
         setNewName(defaultName)
-        setNewNumber(defaultNumber)
+        setNewNumber(defaultNumber)    
+        showMessage('Contact created', 'success')
       })
-
-    showMessage('Contact created', 'success')
+      .catch(error => {
+        console.log('this is an error', error)
+        showMessage(`Person validation failed ${error}`, "error")
+      })
   }
 
   const getPersons = () => {
