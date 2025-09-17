@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 const app = express()
 
+const { info, error } = require('./utils/logger.js')
+
 const blogSchema = mongoose.Schema({
   title: String,
   author: String,
@@ -34,5 +36,5 @@ app.post('/api/blogs', (request, response) => {
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  info(`Server running on port ${PORT}`)
 })
