@@ -32,7 +32,7 @@ const mostBlogs = (blog) => {
 
     if (blog.length === 1) {
         return {
-            author: blog.name, 
+            author: blog[0].author, 
             blogs: 1
         }
     }
@@ -52,6 +52,36 @@ const mostBlogs = (blog) => {
     return numbOfPosts.reduce(reducer)
 }
 
+const mostLikes = (blog) => {
+    const reducer = (maxObj, currObj) => {
+        if(currObj.likes > maxObj.likes){
+            return currObj
+        }
+        return maxObj
+    }
+
+    if (blog.length === 1) {
+        return {
+            author: blog[0].author, 
+            likes: blog[0].likes
+        }
+    }
+
+    //step 1 - find all the authors and their respective number of likes
+    const numbOfLikes = []
+    blog.forEach(b => {
+        const exists = numbOfLikes.find(a => a.author === b.author)
+        if (exists) {
+           exists.likes += b.likes 
+        } else {
+            numbOfLikes.push({author: b.author, likes: b.likes})
+        }
+    })
+
+    //step 2 - check who has the biggest number of likes
+    return numbOfLikes.reduce(reducer)
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }

@@ -99,7 +99,7 @@ describe('most blogs', () => {
   test('when list has only one blog, the author with most blog will be himself', () => {
     const result = listHelper.mostBlogs(listWithOneBlog)
     assert.deepStrictEqual(result, { 
-      author: listWithOneBlog[0].name,
+      author: listWithOneBlog[0].author,
       blogs: 1 
     })
   })
@@ -109,6 +109,24 @@ describe('most blogs', () => {
     assert.deepStrictEqual(result,  { 
       author: 'Robert C. Martin',
       blogs: 3 
+    })
+  })
+})
+
+describe('most likes', () => {
+  test('when list has only one blog, the author with most blog will be himself', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    assert.deepStrictEqual(result, { 
+      author: listWithOneBlog[0].author,
+      likes: listWithOneBlog[0].likes
+    })
+  })
+
+  test('when list has more than one blog', () => {
+    const result = listHelper.mostLikes(listWithManyBlogs)
+    assert.deepStrictEqual(result,  { 
+      author: 'Edsger W. Dijkstra',
+      likes: 17 
     })
   })
 })
