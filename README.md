@@ -14,7 +14,13 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 ##  Project structure
 |-- _0_Fundamentals-of-Web-apps: Introduces basics of web development, HTTP, and client-server interaction.
 
+    - General information and fundamentals of web programming.
+
 |-- _1_Introduction-to-React: Covers React fundamentals including components, props, state, and event handling.
+
+    - Going through React and JavaScript basics.
+    - Components and event handlers.
+    - Debuging JavaScript applications. 
 
 |-- _2_Communicating-with-Server: Teaches how to use Axios to interact with REST APIs and manage application data.
 
@@ -25,7 +31,14 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 
 |-- _3_Programming-Server-with-NodeJS-and-Express: Guides you through building a backend server using Express and connecting to MongoDB.
 
+    - Deploying an application to the internet.
+    - Creating a database and saving data there.
+    - Validation and ESLint.
+
 |-- _4_Testing-Express-Servers-and-User-Authentication: Focuses on testing APIs with Jest/SuperTest and implementing secure authentication.
+
+    - Creating new blog application with better structures, learning unit testing, and using reduce()
+    - Adding testing to blog application, using async/await and promise.all 
 
 |-- _5_Testing-React-Apps: Shows how to test React applications using React Testing Library and Cypress.
 
