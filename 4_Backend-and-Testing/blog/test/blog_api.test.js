@@ -68,9 +68,46 @@ test('blogs without number of likes', async () => {
     .get('/api/blogs')
     .expect(200)
 
-  console.log(response.body)
   assert.strictEqual(response.body.length, 3)
   assert.strictEqual(response.body[2].likes, 0) 
+})
+
+test('blogs without title are not created', async () => {
+  const blog = {
+    author: "Author 1",
+    url: "http://www.author_blog.com",
+    likes: 1
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blog)
+    .expect(400)
+  
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  assert.strictEqual(response.body.length, 2)
+})
+
+test('blogs without url are not created', async () => {
+  const blog = {
+    title: "My title",
+    author: "Author 1",
+    likes: 1
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blog)
+    .expect(400)
+  
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  assert.strictEqual(response.body.length, 2)
 })
 
 after(async () => {
