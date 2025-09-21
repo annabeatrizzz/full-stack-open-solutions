@@ -110,6 +110,29 @@ test('blogs without url are not created', async () => {
   assert.strictEqual(response.body.length, 2)
 })
 
+test('blogs delete operation successfull', async () => {
+  const blogs = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  const blogToDelete = blogs.body[0]
+
+  console.log(blogToDelete)
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsUpdated = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  const titles = blogsUpdated.body.map(b => b.title)
+      assert(!titles.includes(blogToDelete.title))
+
+  assert.strictEqual(blogsUpdated.body.length, 1)
+    
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
