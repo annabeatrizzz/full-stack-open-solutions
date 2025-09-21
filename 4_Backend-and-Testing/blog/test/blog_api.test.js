@@ -133,6 +133,27 @@ test('blogs delete operation successfull', async () => {
     
 })
 
+test('blogs update number of likes', async () => {
+  const blogs = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  const blogToUpdate = blogs.body[0]
+  blogToUpdate.likes = 30
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogToUpdate)
+    .expect(200)
+
+  const blogsUpdated = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  assert.strictEqual(blogsUpdated.body.length, 2)
+  assert.strictEqual(blogsUpdated.body[0].likes, 30)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
