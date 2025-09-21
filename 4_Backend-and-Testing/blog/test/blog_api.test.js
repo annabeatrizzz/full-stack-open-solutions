@@ -25,6 +25,16 @@ test('blogs are returned as json', async () => {
   assert.strictEqual(response.body.length, 2)
 })
 
+test('blogs unique identifier is named id', async () => {
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+    
+  assert.strictEqual(response.body[0].id, '5a422a851b54a676234d17f7')
+})
+
+
 after(async () => {
   await mongoose.connection.close()
 })
