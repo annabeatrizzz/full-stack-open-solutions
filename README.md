@@ -39,6 +39,7 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 
     - Creating new blog application with better structures, learning unit testing, and using reduce()
     - Adding testing to blog application, using async/await and promise.all 
+    - Creating users and token authentication
 
 |-- _5_Testing-React-Apps: Shows how to test React applications using React Testing Library and Cypress.
 
