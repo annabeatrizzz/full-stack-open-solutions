@@ -52,6 +52,26 @@ test('new blogs are correctly created', async () => {
   assert.strictEqual(response.body[2].likes, listHelper.listWithManyBlogs[2].likes)
 })
 
+test('blogs without number of likes', async () => {
+  const blog = {
+    title: "New blog",
+    author: "Author 1",
+    url: "http://www.author_blog.com",
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(blog)
+    .expect(201)
+  
+  const response = await api
+    .get('/api/blogs')
+    .expect(200)
+
+  console.log(response.body)
+  assert.strictEqual(response.body.length, 3)
+  assert.strictEqual(response.body[2].likes, 0) 
+})
 
 after(async () => {
   await mongoose.connection.close()
