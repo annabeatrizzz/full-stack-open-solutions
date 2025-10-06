@@ -5,6 +5,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 })
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
@@ -21,10 +22,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      console.log('wrong credentials')
     }
   }
 
@@ -35,10 +33,50 @@ const App = () => {
     setUser(null)
   }
 
+  const handleBlog = (event) => {
+    const { name, value } = event.target
+    setNewBlog({
+      ...newBlog,
+      [name]: value
+    })
+  }
+
+  const addBlog = async event => {
+    event.preventDefault()
+
+    const blogObject = {
+      title: newBlog.title,
+      author: newBlog.author,
+      url: newBlog.url
+    }
+
+    try {
+      const returnedBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(returnedBlog))
+      setNewBlog({ title: '', author: '', url: '', likes: 0 })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <label>Title: </label>
+      <input name="title" value={newBlog.title} onChange={handleBlog}/><br></br>
+      <label>Author: </label>
+      <input name="author" value={newBlog.author} onChange={handleBlog}/><br></br>
+      <label>Url: </label>
+      <input name="url" value={newBlog.url} onChange={handleBlog}/><br></br>
+      <label>Likes: </label>
+      <input name="likes" value={newBlog.likes} onChange={handleBlog}/><br></br>
+      <button type="submit">Save</button>
+    </form>
+  )
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+      blogService.getAll().then(blogs =>
+        setBlogs( blogs )
+      )  
   }, [])
 
   useEffect(() => {
@@ -79,17 +117,21 @@ const App = () => {
         </form>
       </div>
     )
-  }
+  } else {
+    return (
+      <div>
+        <h2>Blogs</h2>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
 
-  return (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-      <button onClick={handleLogout}>log off</button>
-    </div>
-  )
+        <h2>New blog</h2>
+         {blogForm()}
+
+        <button onClick={handleLogout}>log off</button>
+      </div>
+    )
+  }
 
 }
 
