@@ -107,15 +107,16 @@ const App = () => {
       <div>
          <Notification type={messageType} message={message}></Notification>
         <h2>Blogs</h2>
+        
+        <Togglable buttonLabel='Create new blog'>
+          <BlogForm createNote={createNote}></BlogForm>  
+        </Togglable>
+
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
 
-        <Togglable buttonLabel='Create new blog'>
-          <BlogForm createNote={createNote}></BlogForm>  
-        </Togglable>
-        
-        <button onClick={handleLogout}>log off</button>
+        <button onClick={handleLogout}>Log off</button>
       </div>
     )
   }
