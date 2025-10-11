@@ -10,7 +10,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 })
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
@@ -46,27 +45,10 @@ const App = () => {
     setMessageType('success')
   }
 
-  const handleBlog = (event) => {
-    const { name, value } = event.target
-    setNewBlog({
-      ...newBlog,
-      [name]: value
-    })
-  }
-
-  const addBlog = async event => {
-    event.preventDefault()
-
-    const blogObject = {
-      title: newBlog.title,
-      author: newBlog.author,
-      url: newBlog.url
-    }
-
+  const createNote = async (blogObject) => {
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-      setNewBlog({ title: '', author: '', url: '', likes: 0 })
       setMessage(`Successfully added a blog`)
       setMessageType('success')
     } catch (error) {
@@ -130,11 +112,7 @@ const App = () => {
         )}
 
         <Togglable buttonLabel='Create new blog'>
-          <BlogForm 
-            addBlog={addBlog} 
-            newBlog={newBlog} 
-            handleBlog={handleBlog}>
-          </BlogForm>  
+          <BlogForm createNote={createNote}></BlogForm>  
         </Togglable>
         
         <button onClick={handleLogout}>log off</button>
