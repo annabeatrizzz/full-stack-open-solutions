@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const BlogForm = ({ createNote }) => {
+const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 })
 
   const addBlog = async event => {
@@ -8,10 +8,11 @@ const BlogForm = ({ createNote }) => {
     const blogObject = {
       title: newBlog.title,
       author: newBlog.author,
-      url: newBlog.url
+      url: newBlog.url,
+      likes: Number(newBlog.likes)
     }
 
-    createNote(blogObject)
+    createBlog(blogObject)
     setNewBlog({ title: '', author: '', url: '', likes: 0 })
   }
 
@@ -28,17 +29,17 @@ const BlogForm = ({ createNote }) => {
       <h2>New blog</h2>
 
       <form onSubmit={addBlog}>
-        <label>Title: </label>
-        <input name="title" value={newBlog.title} onChange={handleBlog}/><br></br>
+        <label htmlFor="title">Title: </label>
+        <input id="title" name="title" placeholder='write blog title' value={newBlog.title} onChange={handleBlog}/><br></br>
 
-        <label>Author: </label>
-        <input name="author" value={newBlog.author} onChange={handleBlog}/><br></br>
+        <label htmlFor="author">Author: </label>
+        <input id="author" name="author" placeholder='write blog author' value={newBlog.author} onChange={handleBlog}/><br></br>
 
-        <label>Url: </label>
-        <input name="url" value={newBlog.url} onChange={handleBlog}/><br></br>
+        <label htmlFor="url">Url: </label>
+        <input id="url" name="url" placeholder='write blog url' value={newBlog.url} onChange={handleBlog}/><br></br>
 
-        <label>Likes: </label>
-        <input name="likes" value={newBlog.likes} onChange={handleBlog}/><br></br>
+        <label htmlFor="likes">Likes</label>
+        <input id="likes" name="likes" value={newBlog.likes} onChange={handleBlog}/><br></br>
 
         <button type="submit">Save</button>
       </form>

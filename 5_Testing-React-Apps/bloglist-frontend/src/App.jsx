@@ -45,7 +45,7 @@ const App = () => {
     setMessageType('success')
   }
 
-  const createNote = async (blogObject) => {
+  const createBlog = async (blogObject) => {
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
@@ -140,7 +140,7 @@ const App = () => {
 
         <h2>Blogs</h2>
         <Togglable buttonLabel='Create new blog'>
-          <BlogForm createNote={createNote}></BlogForm>
+          <BlogForm createBlog={createBlog}></BlogForm>
         </Togglable>
 
         {[...blogs]
