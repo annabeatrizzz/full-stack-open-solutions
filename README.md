@@ -44,6 +44,7 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 |-- _5_Testing-React-Apps: Shows how to test React applications using React Testing Library and Cypress.
 
     - Frontend changes to login and log out, using browsers local storage
+    - Using Toggle component to only show when necessary
 
 |-- _6_State-Management-with-Redux: Introduces Redux for managing complex application state and handling asynchronous actions.
 
