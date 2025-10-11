@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable.jsx'
 import Notification from './components/Notification.jsx'
 
 import blogService from './services/blogs'
@@ -73,20 +75,6 @@ const App = () => {
     }
   }
 
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <label>Title: </label>
-      <input name="title" value={newBlog.title} onChange={handleBlog}/><br></br>
-      <label>Author: </label>
-      <input name="author" value={newBlog.author} onChange={handleBlog}/><br></br>
-      <label>Url: </label>
-      <input name="url" value={newBlog.url} onChange={handleBlog}/><br></br>
-      <label>Likes: </label>
-      <input name="likes" value={newBlog.likes} onChange={handleBlog}/><br></br>
-      <button type="submit">Save</button>
-    </form>
-  )
-
   useEffect(() => {
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
@@ -141,9 +129,14 @@ const App = () => {
           <Blog key={blog.id} blog={blog} />
         )}
 
-        <h2>New blog</h2>
-         {blogForm()}
-
+        <Togglable buttonLabel='Create new blog'>
+          <BlogForm 
+            addBlog={addBlog} 
+            newBlog={newBlog} 
+            handleBlog={handleBlog}>
+          </BlogForm>  
+        </Togglable>
+        
         <button onClick={handleLogout}>log off</button>
       </div>
     )
