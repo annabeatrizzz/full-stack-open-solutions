@@ -10,20 +10,20 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [message, setMessage] = useState("")
-  const [messageType, setMessageType] = useState("")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
   const [user, setUser] = useState(null)
 
   const handleLogin = async event => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem(
         'loggedBlogAppUser', JSON.stringify(user)
-      ) 
+      )
       setUser(user)
       setUsername('')
       setPassword('')
@@ -38,8 +38,8 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem(
-        'loggedBlogAppUser', JSON.stringify(user)
-    ) 
+      'loggedBlogAppUser', JSON.stringify(user)
+    )
     setUser(null)
     setMessage('Successfully loged out')
     setMessageType('success')
@@ -49,7 +49,7 @@ const App = () => {
     try {
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-      setMessage(`Successfully added a blog`)
+      setMessage('Successfully added a blog')
       setMessageType('success')
     } catch (error) {
       setMessage(`Error creating a blog ${error}`)
@@ -63,7 +63,7 @@ const App = () => {
     try {
       const returnedBlog = await blogService.update(blog.id, updatedBlog)
       setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
-      setMessage(`Successfully added a like`)
+      setMessage('Successfully added a like')
       setMessageType('success')
     } catch (error) {
       setMessage(`Error adding a like ${error}`)
@@ -74,13 +74,13 @@ const App = () => {
   const deleteNote = async (blog) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${blog.title}"?`)
     if (!confirmDelete) {
-      return 
+      return
     }
-    
+
     try {
       await blogService.deleteBlog(blog.id)
       setBlogs(blogs.filter(b => b.id !== blog.id))
-      setMessage(`Successfully deleted blog`)
+      setMessage('Successfully deleted blog')
       setMessageType('success')
     } catch (error) {
       setMessage(`Error deleting the blog ${error}`)
@@ -89,9 +89,9 @@ const App = () => {
   }
 
   useEffect(() => {
-      blogService.getAll().then(blogs =>
-        setBlogs( blogs )
-      )  
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )
   }, [])
 
   useEffect(() => {
@@ -137,17 +137,17 @@ const App = () => {
     return (
       <div>
         <Notification type={messageType} message={message}></Notification>
-        
+
         <h2>Blogs</h2>
         <Togglable buttonLabel='Create new blog'>
-          <BlogForm createNote={createNote}></BlogForm>  
+          <BlogForm createNote={createNote}></BlogForm>
         </Togglable>
 
         {[...blogs]
           .sort((a, b) => b.likes - a.likes)
           .map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={addLike} deleteNote={deleteNote}/>
-        )}
+            <Blog key={blog.id} blog={blog} addLike={addLike} deleteNote={deleteNote}/>
+          )}
 
         <button onClick={handleLogout}>Log off</button>
       </div>
