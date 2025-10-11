@@ -71,6 +71,23 @@ const App = () => {
     }
   }
 
+  const deleteNote = async (blog) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${blog.title}"?`)
+    if (!confirmDelete) {
+      return 
+    }
+    
+    try {
+      await blogService.deleteBlog(blog.id)
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      setMessage(`Successfully deleted blog`)
+      setMessageType('success')
+    } catch (error) {
+      setMessage(`Error deleting the blog ${error}`)
+      setMessageType('error')
+    }
+  }
+
   useEffect(() => {
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
@@ -129,7 +146,7 @@ const App = () => {
         {[...blogs]
           .sort((a, b) => b.likes - a.likes)
           .map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={addLike}/>
+          <Blog key={blog.id} blog={blog} addLike={addLike} deleteNote={deleteNote}/>
         )}
 
         <button onClick={handleLogout}>Log off</button>

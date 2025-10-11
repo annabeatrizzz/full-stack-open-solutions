@@ -1,6 +1,6 @@
 import Togglable from './Togglable.jsx'
 
-const Blog = ({ blog, addLike }) => (
+const Blog = ({ blog, addLike, deleteNote }) => (
   <div className="blog-card">
     <div className="blog-header">
       <p>Title = <strong>{blog.title}</strong> <span className="blog-author">Author = {blog.author}</span> </p>
@@ -8,6 +8,7 @@ const Blog = ({ blog, addLike }) => (
     <Togglable buttonLabel="View details">
       <span className="blog-author">Created by = {blog.user.username} URL = {blog.url} Likes = {blog.likes} </span> 
       <button onClick={() => addLike(blog)}>Like</button>
+      <button onClick={() => deleteNote(blog)}>Delete</button>
     </Togglable>
   </div>
 )
