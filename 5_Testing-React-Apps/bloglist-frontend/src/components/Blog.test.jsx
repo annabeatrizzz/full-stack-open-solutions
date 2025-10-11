@@ -40,3 +40,15 @@ describe('<Blog />', () => {
 
   })
 })
+
+test('Button like being pressed', async () => {
+  const mockHandler = vi.fn()
+  render(<Blog blog={blog} addLike={mockHandler} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('Like')
+  await user.click(button)
+  expect(mockHandler.mock.calls).toHaveLength(1)
+  await user.click(button)
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})
