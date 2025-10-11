@@ -1,20 +1,42 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-test('Renders content of blog', () => {
-  const blog = {
-    title: 'My title',
-    author: 'AuthorName',
-    url: 'www.basic.com',
-    likes: 1,
-    user: '123'
+const blog = {
+  title: 'My title',
+  author: 'AuthorName',
+  url: 'www.basic.com',
+  likes: 1,
+  user: {
+    username: 'User name'
   }
+}
 
-  render(<Blog blog={blog} />)
+describe('<Blog />', () => {
+  beforeEach(() => {
+    render(
+      <Blog blog={blog} />
+    )
+  })
 
-  const title = screen.getByText('My title')
-  expect(title).toBeDefined()
 
-  const author = screen.getByText('AuthorName', { exact: false })
-  expect(author).toBeDefined()
+  test('Renders content of blog', () => {
+    const title = screen.getByText('My title')
+    expect(title).toBeDefined()
+
+    const author = screen.getByText('AuthorName', { exact: false })
+    expect(author).toBeDefined()
+  })
+
+  test('At start the children are not displayed', () => {
+      const details = screen.getByText('Created by =', { exact: false })
+      expect(details).not.toBeVisible()
+
+      const btnLike = screen.getByText('Like')
+      expect(btnLike).not.toBeVisible()
+
+      const btnDelete = screen.getByText('Delete')
+      expect(btnDelete).not.toBeVisible()
+
+  })
 })
