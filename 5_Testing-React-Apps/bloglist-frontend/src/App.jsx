@@ -57,6 +57,20 @@ const App = () => {
     }
   }
 
+  const addLike = async (blog) => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1 }
+
+    try {
+      const returnedBlog = await blogService.update(blog.id, updatedBlog)
+      setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
+      setMessage(`Successfully added a like`)
+      setMessageType('success')
+    } catch (error) {
+      setMessage(`Error adding a like ${error}`)
+      setMessageType('error')
+    }
+  }
+
   useEffect(() => {
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
@@ -105,15 +119,15 @@ const App = () => {
   } else {
     return (
       <div>
-         <Notification type={messageType} message={message}></Notification>
-        <h2>Blogs</h2>
+        <Notification type={messageType} message={message}></Notification>
         
+        <h2>Blogs</h2>
         <Togglable buttonLabel='Create new blog'>
           <BlogForm createNote={createNote}></BlogForm>  
         </Togglable>
 
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} addLike={addLike}/>
         )}
 
         <button onClick={handleLogout}>Log off</button>
