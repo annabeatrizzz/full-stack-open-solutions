@@ -95,6 +95,31 @@ describe('Blog app', () => {
         await page.getByRole('button', { name: 'View details' }).click()
         const deleteButton = page.getByRole('button', { name: 'Delete' })
         await expect(deleteButton).toHaveCount(0)
-   })
+    })
+
+    test('ensure the blogs are organized according to the most liked blog', async ({ page }) => {
+        await page.reload()
+        
+        await page.getByRole('button', { name: 'Create new blog' }).click()
+        await page.getByLabel('Title').fill('New Title2')
+        await page.getByLabel('Author').fill('Author Name2')
+        await page.getByLabel('Url').fill('www.blog2.com')
+        await page.getByLabel('Likes').fill('30')
+        await page.getByRole('button', { name: 'Save' }).click()
+
+        //const firstBlog = page.locator('.blog-card').first()
+        //const secondBlog = page.locator('.blog-card').nth(1)
+
+        const newBlog = page.locator('.blog-card', { hasText: 'New Title2' })
+        const oldBlog = page.locator('.blog-card', { hasText: 'New Title' })
+
+        // Expand details
+        await newBlog.getByRole('button', { name: 'View details' }).click()
+        await oldBlog.getByRole('button', { name: 'View details' }).click()
+
+        // Assert likes
+        await expect(newBlog.locator('span', { hasText: 'Likes = 30' })).toBeVisible()
+        await expect(oldBlog.locator('span', { hasText: 'Likes = 11' })).toBeVisible()
+    })
   })
 })
