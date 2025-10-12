@@ -146,7 +146,7 @@ const App = () => {
         {[...blogs]
           .sort((a, b) => b.likes - a.likes)
           .map(blog =>
-            <Blog key={blog.id} blog={blog} addLike={addLike} deleteNote={deleteNote}/>
+            <Blog key={blog.id} blog={blog} addLike={addLike} deleteNote={deleteNote} currentUser={user}/>
           )}
 
         <button onClick={handleLogout}>Log off</button>

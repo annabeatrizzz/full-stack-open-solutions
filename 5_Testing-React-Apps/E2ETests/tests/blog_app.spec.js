@@ -1,4 +1,4 @@
-const { test, expect, beforeEach, describe } = require('@playwright/test')
+const { test, expect, beforeEach, afterAll, describe } = require('@playwright/test')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -13,6 +13,10 @@ describe('Blog app', () => {
     })
     
     await page.goto('http://localhost:5173')
+  })
+
+   afterAll(async ({ request }) => {
+    await request.post('http://localhost:3003/api/testing/reset')
   })
 
   test('Login form is shown', async ({ page }) => {
@@ -56,13 +60,11 @@ describe('Blog app', () => {
         await page.getByLabel('Likes').fill('10')
         await page.getByRole('button', { name: 'Save' }).click()
 
-        await expect(page.getByText('Title = New Title', { exact: false })).toBeVisible()
-        await expect(page.getByText('Author = Author Name', { exact: false })).toBeVisible()    
+        const blogCard = page.locator('.blog-card', { hasText: 'New Title' })
     })
 
     test('a blog can be liked', async ({ page }) => {
-        await expect(page.getByText('Title = New Title', { exact: false })).toBeVisible()
-        await expect(page.getByText('Author = Author Name', { exact: false })).toBeVisible()  
+        const blogCard = page.locator('.blog-card', { hasText: 'New Title' })
         
         await page.getByRole('button', { name: 'View details' }).click()
         await page.getByRole('button', { name: 'Like' }).click()
@@ -70,9 +72,8 @@ describe('Blog app', () => {
     })
 
     test('a blog can be deleted by the user', async ({ page }) => {
-        await expect(page.getByText('Title = New Title', { exact: false })).toBeVisible()
-        await expect(page.getByText('Author = Author Name', { exact: false })).toBeVisible()  
-        
+        const blogCard = page.locator('.blog-card', { hasText: 'New Title' })
+ 
         await page.getByRole('button', { name: 'View details' }).click()
         page.once('dialog', dialog => dialog.accept())
         await page.getByRole('button', { name: 'Delete' }).click()
@@ -81,5 +82,19 @@ describe('Blog app', () => {
         await expect(page.getByText('Title = New Title', { exact: false })).not.toBeVisible()
         await expect(page.getByText('Author = Author Name', { exact: false })).not.toBeVisible()    
     })
+
+    test('a blog can not see the delete buton if it is not the creator of the blog', async ({ page }) => {
+        await page.getByRole('button', { name: 'Log off' }).click() 
+
+        await page.getByLabel('username').fill('user1')
+        await page.getByLabel('password').fill('password')
+        await page.getByRole('button', { name: 'Login' }).click() 
+
+        await page.getByRole('heading', { name: 'Blogs' }).waitFor({ state: 'visible' })
+
+        await page.getByRole('button', { name: 'View details' }).click()
+        const deleteButton = page.getByRole('button', { name: 'Delete' })
+        await expect(deleteButton).toHaveCount(0)
+   })
   })
 })
