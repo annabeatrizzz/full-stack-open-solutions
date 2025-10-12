@@ -45,6 +45,8 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 
     - Frontend changes to login and log out, using browsers local storage
     - Using Toggle component to only show when necessary
+    - Testing React apps
+    - End to End testing with Playwright 
 
 |-- _6_State-Management-with-Redux: Introduces Redux for managing complex application state and handling asynchronous actions.
 
