@@ -68,5 +68,18 @@ describe('Blog app', () => {
         await page.getByRole('button', { name: 'Like' }).click()
         await expect(page.getByText('Likes = 11', { exact: false })).toBeVisible()
     })
+
+    test('a blog can be deleted by the user', async ({ page }) => {
+        await expect(page.getByText('Title = New Title', { exact: false })).toBeVisible()
+        await expect(page.getByText('Author = Author Name', { exact: false })).toBeVisible()  
+        
+        await page.getByRole('button', { name: 'View details' }).click()
+        page.once('dialog', dialog => dialog.accept())
+        await page.getByRole('button', { name: 'Delete' }).click()
+
+        await page.reload()
+        await expect(page.getByText('Title = New Title', { exact: false })).not.toBeVisible()
+        await expect(page.getByText('Author = Author Name', { exact: false })).not.toBeVisible()    
+    })
   })
 })
