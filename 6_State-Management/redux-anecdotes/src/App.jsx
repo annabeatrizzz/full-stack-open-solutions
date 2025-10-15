@@ -7,15 +7,14 @@ import Notification from './components/Notification'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 
-import { setAnecdote } from './reducers/anecdoteReducer'
-import anecdoteService from './service/anecdote'
+import { initializeAnecdotes } from './reducers/anecdoteReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const message = useSelector(state => state.message)
 
   useEffect(() => {
-    anecdoteService.getAll().then(anecdote => dispatch(setAnecdote(anecdote)))
+    dispatch(initializeAnecdotes())
   }, [dispatch])
 
   return (
