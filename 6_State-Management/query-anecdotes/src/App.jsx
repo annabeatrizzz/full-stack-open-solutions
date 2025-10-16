@@ -2,6 +2,7 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 
 import { useState } from 'react'
+import { getAnecdotes } from './requests'
 import { useQuery } from '@tanstack/react-query'
 
 const App = () => {
@@ -12,19 +13,8 @@ const App = () => {
   }
 
   const result = useQuery({
-    queryKey: ['anecdote'],
-    queryFn: async () => {
-      try {
-        const response = await fetch('http://localhost:3001/anecdotes')
-        if (!response.ok) {
-          throw new Error('Failed to fetch anecdotes')
-        }
-        return await response.json()
-      } catch (error) {
-        setMessage('Anecdote Server not available due to problems in the server')
-        throw error
-      }
-    }
+    queryKey: ['anecdotes'],
+    queryFn: getAnecdotes
   })
  
   console.log(JSON.parse(JSON.stringify(result)))
