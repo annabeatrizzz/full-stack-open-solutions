@@ -1,17 +1,32 @@
+import MessageContext from './MessageContext'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { getAnecdotes, updateAnecdote } from './requests'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 const App = () => {
-  const [message, setMessage] = useState('')
   const queryClient = useQueryClient()
 
+  const messageReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET':
+      setTimeout(() => {
+        messageDispatch({ type: '' })
+      }, 5000); 
+      return action.payload
+    default:
+      return ''
+    }
+  }
+
+  const [message, messageDispatch] = useReducer(messageReducer, '')
+  
   const updateAnecdoteMutation = useMutation({
     mutationFn: updateAnecdote,
     onSuccess: () => {
+      messageDispatch({ type: 'SET', payload: "Anecdote liked" })
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
     }
   })
@@ -39,7 +54,7 @@ const App = () => {
   const anecdotes = result.data
 
   return (
-    <div>
+    <MessageContext.Provider value={{ message, messageDispatch }}>
       <h3>Anecdote app</h3>
 
       <Notification message={message}/>
@@ -54,7 +69,7 @@ const App = () => {
           </div>
         </div>
       ))}
-    </div>
+    </MessageContext.Provider>
   )
 }
 
