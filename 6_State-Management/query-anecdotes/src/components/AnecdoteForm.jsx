@@ -14,6 +14,9 @@ const AnecdoteForm = () => {
       const anecdotes = queryClient.getQueryData('anecdotes')
       messageDispatch({ type: 'SET', payload: "Anecdote created" })
       queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+    },
+    onError: (error) => {
+      messageDispatch({ type: 'SET', payload: "Anecdote must have a length of at least 5" })
     }
   })
 
