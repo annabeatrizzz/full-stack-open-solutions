@@ -58,6 +58,7 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 |-- _7_ReactRouter-CustomHooks-Styling: Explores routing, creating custom hooks, and different styling approaches in React.
 
     - React Router
+    - Custom hooks
 
 |-- _8_GraphQL: Teaches how to build and consume GraphQL APIs using Apollo Server and Client.
 
