@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link, useParams
+  Routes, Route, Link, useParams, useNavigate
 } from 'react-router-dom'
 
 const Anecdote = ({ anecdotes }) => {
@@ -42,6 +42,10 @@ const About = () => (
   </div>
 )
 
+const Notification = ({message}) => (
+  <div>{message}</div>
+)
+
 const Footer = () => (
   <div>
     Anecdote app for <a href='https://fullstackopen.com/'>Full Stack Open</a>.
@@ -51,6 +55,7 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -64,6 +69,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/anecdotes')
   }
 
   return (
@@ -112,6 +118,7 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`Anecdote ${anecdote.content} was created`)
   }
 
   const anecdoteById = (id) =>
@@ -136,6 +143,8 @@ const App = () => {
 
     <Router>
       <h1>Software anecdotes</h1>
+      <Notification message={notification}></Notification>
+
       <div>
         <Link style={padding} to="/anecdotes">anecdotes</Link>
         <Link style={padding} to="/create">create new</Link>
