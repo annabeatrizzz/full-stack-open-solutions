@@ -1,14 +1,29 @@
 import { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, useParams
 } from 'react-router-dom'
+
+const Anecdote = ({ anecdotes }) => {
+  const anecdoteId = useParams().id
+  const anecdote = anecdotes.find(a => a.id === Number(anecdoteId)) 
+  return (
+    <div>
+      <h2>Anecdotes</h2>
+      <div>
+        <h2>{anecdote.content}</h2>
+      </div>
+    </div>
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>)}
     </ul>
   </div>
 )
@@ -128,6 +143,7 @@ const App = () => {
       </div>
 
       <Routes>
+        <Route path="/anecdotes/:id" element={<Anecdote anecdotes={anecdotes} />} />
         <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/create" element={<CreateNew addNew={addNew}  />} />
         <Route path="/" element={<About />} />
