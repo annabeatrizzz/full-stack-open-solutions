@@ -51,8 +51,13 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 |-- _6_State-Management-with-Redux: Introduces Redux for managing complex application state and handling asynchronous actions.
 
     - Learning how to use Redux as a State Management
+    - Learning how to use Redux Toolkit
+    - Communicating with a Server and simplifying with Redux Thunk
+    - Using React Query and useReducer
 
 |-- _7_ReactRouter-CustomHooks-Styling: Explores routing, creating custom hooks, and different styling approaches in React.
+
+    - React Router
 
 |-- _8_GraphQL: Teaches how to build and consume GraphQL APIs using Apollo Server and Client.
 
