@@ -11,12 +11,10 @@ import loginService from './services/login'
 
 const App = () => {
   const time = 5000
+  const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  //const [message, setMessage] = useState('')
-  //const [messageType, setMessageType] = useState('')
-  const [user, setUser] = useState(null)
 
   const message = useSelector(state => state)
   const dispatch = useDispatch()
@@ -32,14 +30,9 @@ const App = () => {
       setPassword('')
     } catch {
       dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Wrong credentials', class: 'error'}})
-      //setMessage('Wrong credentials')
-      //setMessageType('error')
       setTimeout(() => {
         dispatch({type: 'CLEAR'})
       }, time)
-      /*setTimeout(() => {
-        setMessage(null)
-      }, 5000)*/
     }
   }
 
@@ -50,8 +43,6 @@ const App = () => {
     setTimeout(() => {
         dispatch({type: 'CLEAR'})
     }, time)
-    //setMessage('Successfully loged out')
-    //setMessageType('success')
   }
 
   const createBlog = async (blogObject) => {
@@ -62,15 +53,11 @@ const App = () => {
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage('Successfully added a blog')
-      //setMessageType('success')
     } catch (error) {
       dispatch({ type: 'ADD_MESSAGE', payload: {content: `Error creating a ${error}`, class: 'error'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage(`Error creating a blog ${error}`)
-      //setMessageType('error')
     }
   }
 
@@ -84,15 +71,11 @@ const App = () => {
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage('Successfully added a like')
-      //setMessageType('success')
     } catch (error) {
       dispatch({ type: 'ADD_MESSAGE', payload: {content: `Error adding a like ${error}`, class: 'error'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage(`Error adding a like ${error}`)
-      //setMessageType('error')
     }
   }
 
@@ -111,15 +94,11 @@ const App = () => {
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage('Successfully deleted blog')
-      //setMessageType('success')
     } catch (error) {
       dispatch({ type: 'ADD_MESSAGE', payload: {content: `Error deleting the blog ${error}`, class: 'error'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
       }, time)
-      //setMessage(`Error deleting the blog ${error}`)
-      //setMessageType('error')
     }
   }
 
