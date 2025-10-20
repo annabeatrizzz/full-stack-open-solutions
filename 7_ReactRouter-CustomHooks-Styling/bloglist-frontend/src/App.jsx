@@ -1,3 +1,4 @@
+import { initializeBlogs, appendBlog } from './reducers/blogReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
 
@@ -12,11 +13,11 @@ import loginService from './services/login'
 const App = () => {
   const time = 5000
   const [user, setUser] = useState(null)
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const message = useSelector(state => state)
+  const blogs = useSelector(state => state.blogs)
+  const message = useSelector(state => state.message)
   const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
@@ -25,6 +26,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -47,8 +49,7 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
+      dispatch(appendBlog(blogObject))
       dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Successfully added a blog', class: 'succcess'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
@@ -103,8 +104,8 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
