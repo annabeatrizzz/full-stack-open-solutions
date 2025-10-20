@@ -1,4 +1,4 @@
-import { initializeBlogs, appendBlog } from './reducers/blogReducer'
+import { initializeBlogs, appendBlog, likeBlog, deleteBlogReducer } from './reducers/blogReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
 
@@ -66,8 +66,7 @@ const App = () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
 
     try {
-      const returnedBlog = await blogService.update(blog.id, updatedBlog)
-      setBlogs(blogs.map((b) => (b.id === blog.id ? returnedBlog : b)))
+      dispatch(likeBlog(blog))
       dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Successfully added a like', class: 'success'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
@@ -80,7 +79,7 @@ const App = () => {
     }
   }
 
-  const deleteNote = async (blog) => {
+  const deleteBlog = async (blog) => {
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${blog.title}"?`
     )
@@ -89,8 +88,7 @@ const App = () => {
     }
 
     try {
-      await blogService.deleteBlog(blog.id)
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
+      dispatch(deleteBlogReducer(blog))
       dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Successfully deleted a blog', class: 'success'}})
       setTimeout(() => {
           dispatch({type: 'CLEAR'})
@@ -163,7 +161,7 @@ const App = () => {
               key={blog.id}
               blog={blog}
               addLike={addLike}
-              deleteNote={deleteNote}
+              deleteBlog={deleteBlog}
               currentUser={user}
             />
           ))}

@@ -1,6 +1,6 @@
 import Togglable from './Togglable.jsx'
 
-const Blog = ({ blog, addLike, deleteNote, currentUser }) => (
+const Blog = ({ blog, addLike, deleteBlog, currentUser }) => (
   <div className="blog-card">
     <div className="blog-header">
       <p>
@@ -15,7 +15,7 @@ const Blog = ({ blog, addLike, deleteNote, currentUser }) => (
       </span>
       <button onClick={() => addLike(blog)}>Like</button>
       {currentUser?.username === blog.user.username && (
-        <button onClick={() => deleteNote(blog)}>Delete</button>
+        <button onClick={() => deleteBlog(blog)}>Delete</button>
       )}
     </Togglable>
   </div>
