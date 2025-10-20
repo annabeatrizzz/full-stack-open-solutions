@@ -1,4 +1,5 @@
 import { initializeBlogs, appendBlog, likeBlog, deleteBlogReducer } from './reducers/blogReducer'
+import { login, setUser, unsetUser } from './reducers/userReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
 
@@ -12,11 +13,11 @@ import loginService from './services/login'
 
 const App = () => {
   const time = 5000
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
   const message = useSelector(state => state.message)
   const dispatch = useDispatch()
 
@@ -24,12 +25,7 @@ const App = () => {
     event.preventDefault()
 
     try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      dispatch(login({username, password}))
     } catch {
       dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Wrong credentials', class: 'error'}})
       setTimeout(() => {
@@ -40,7 +36,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser', JSON.stringify(user))
-    setUser(null)
+    dispatch(unsetUser())
     dispatch({ type: 'ADD_MESSAGE', payload: {content: 'Successfully loged out', class: 'succcess'}})
     setTimeout(() => {
         dispatch({type: 'CLEAR'})
@@ -109,7 +105,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user)) 
       blogService.setToken(user.token)
     }
   }, [])
