@@ -1,0 +1,69 @@
+* {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: #3b2a4c;
+    margin: 2px;
+    padding: 0;
+}
+
+button {
+  background-color: #b98dd8;
+  border: none;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit;
+}
+
+button:hover {
+  background-color: #a875d1;
+}
+
+/*NOTIFICATION STYLE*/
+.success {
+    background-color: lightgrey;
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: green;
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    background-color: lightgrey;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: red;
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/*BLOG STYLE*/
+.blog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.blog-card {
+  background-color: lavender;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px 20px;
+  width: 60%;
+  max-width: 600px;
+  margin: 12px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}

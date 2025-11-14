@@ -1,0 +1,33 @@
+* {
+    font: arial;
+}
+
+h2 {
+    color: green;
+}
+
+.success {
+    background-color: lightgrey;
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: green;
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    background-color: lightgrey;
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: red;
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
