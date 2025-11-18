@@ -186,7 +186,20 @@ const resolvers = {
   Mutation: {
     addAuthor: async (root, args) => {
       const author = new Authors({ ...args })
-      return author.save()
+
+      try {
+        await author.save()
+      } catch (error) {
+        throw new GraphQLError('Saving author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
+
+      return author
     },
     addBook: async (root, args) => {
       let author = await Authors.findOne({ name: args.author });
@@ -198,7 +211,19 @@ const resolvers = {
         author: author._id
       });
 
-      return book.save()
+      try {
+        await book.save()
+      } catch (error) {
+        throw new GraphQLError('Saving book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
+
+      return book
     },
     editAuthor: async (root, args) => {
       const author = await Authors.findOne({ name: args.name })
@@ -207,7 +232,20 @@ const resolvers = {
       }
 
       author.born = args.setBornTo
-      return author.save()
+      
+      try {
+        await author.save()
+      } catch (error) {
+        throw new GraphQLError('Saving author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.name,
+            error
+          }
+        })
+      }
+      
+      return author
     }
   }
 }
