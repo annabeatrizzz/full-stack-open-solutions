@@ -155,31 +155,32 @@ const typeDefs = `
     }
 `
 
-const { v1: uuid } = require('uuid')
-
 const resolvers = {
   Query: {
     bookCount: async () => Books.collection.countDocuments(),
     authorCount: async () => Authors.collection.countDocuments(),
     allBooks: async (root, args) => {
-      if (!args.author && !args.genre) {
-        return Books.find({})
-      }
-
-      /*if (args.author) {
-        return books.filter(b => b.author === args.author)
+      let books = await Books.find({}).populate('author')
+      
+      if (args.author) {
+        books = books.filter(b=> b.author.name === args.author)
       }
 
       if (args.genre) {
-        return books.filter(b => b.genres.includes(args.genre))
-      }*/
+        books = books.filter(b => b.genres.includes(args.genre))
+      }
 
+      return books
     },
     allAuthors: async () => Authors.find({})
   },
 
   Author: {
-    bookCount: async (root) => await Books.countDocuments({ author: root.name })
+    bookCount: async (root) => await Books.countDocuments({ author: root._id })
+  },
+
+  Book: {
+    author: async (root) => await Authors.findById(root.author)
   },
 
   Mutation: {
@@ -200,13 +201,13 @@ const resolvers = {
       return book.save()
     },
     editAuthor: async (root, args) => {
-      const author = await Authors.find({ name: args.name })
+      const author = await Authors.findOne({ name: args.name })
       if (!author) {
         return null
       }
 
-      person.phone = args.phone
-      return person.save()
+      author.born = args.setBornTo
+      return author.save()
     }
   }
 }
