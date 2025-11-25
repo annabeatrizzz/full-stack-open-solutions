@@ -34,28 +34,27 @@ const calculateExercises = (hours: number[], target: number) => {
 
     let sumHours = 0;
     let trainingDays = 0; 
-    let rating = 1
-    let success = false
-    let ratingDescription = ''
+    let rating = 1;
+    let success = false;
+    let ratingDescription = '';
 
     for (let i = 0; i < periodLenght; i++) {
         if (hours[i] > 0) {
             trainingDays++;
-            sumHours += hours[i]
+            sumHours += hours[i];
         }
     }
 
-    console.log(sumHours)
-    const average = sumHours/periodLenght
+    const average = sumHours/periodLenght;
     if ( average < (target/2) ){
-        ratingDescription = 'You will do better next week'
+        ratingDescription = 'You will do better next week';
     } else if ( average === (target/2) ) {
-        rating = 2
-        ratingDescription = 'Good effort'
+        rating = 2;
+        ratingDescription = 'Good effort';
     } else {
-        rating = 3
-        success = true
-        ratingDescription = 'You are amazing! Keep working hard and you will get there!!!'
+        rating = 3;
+        success = true;
+        ratingDescription = 'You are amazing! Keep working hard and you will get there!!!';
     }
 
     return {
@@ -71,8 +70,6 @@ const calculateExercises = (hours: number[], target: number) => {
 
 try {
     const { hours, target } = parseArguments(process.argv);
-    //const hours: number[] = [3, 0, 2, 4.5, 0, 3, 1]//Number(process.argv[2])
-    //const target: number = 2
     console.log(calculateExercises(hours, target));
 } catch (error: unknown) {
     let errorMessage = 'Something went wrong: '
