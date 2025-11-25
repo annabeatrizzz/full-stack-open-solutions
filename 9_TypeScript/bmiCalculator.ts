@@ -1,6 +1,6 @@
-type Result = 'underweight' | 'normal weight' | 'overweight' | 'obesidy';
+export type Result = 'underweight' | 'normal weight' | 'overweight' | 'obesidy';
 
-const calculateBmi = (height: number, weight: number): Result => {
+export const calculateBmi = (height: number, weight: number): Result => {
     const bmi = weight / (height/100 * height/100);
 
     if (bmi < 18.5) {
@@ -14,7 +14,7 @@ const calculateBmi = (height: number, weight: number): Result => {
     }
 }
 
-try {
+/*try {
     const height: number = Number(process.argv[2])
     const weight: number = Number(process.argv[3])
     console.log(calculateBmi(height, weight));
@@ -24,4 +24,4 @@ try {
         errorMessage += error.message;
     }
     console.log(errorMessage);
-}
+}*/
