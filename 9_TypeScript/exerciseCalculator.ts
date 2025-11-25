@@ -9,7 +9,7 @@ const parseArguments = (args: string[]): ExerciseValues => {
 
     let hours: number[];
     try {
-        hours = JSON.parse(args[2]);
+        hours = JSON.parse(args[2]) as number[];
         if (!Array.isArray(hours)) {
             throw new Error();
         }
@@ -26,11 +26,11 @@ const parseArguments = (args: string[]): ExerciseValues => {
     }
 
     return { hours, target };
-}
+};
 
 const calculateExercises = (hours: number[], target: number) => {
 
-    const periodLenght = hours.length
+    const periodLenght = hours.length;
 
     let sumHours = 0;
     let trainingDays = 0; 
@@ -65,14 +65,14 @@ const calculateExercises = (hours: number[], target: number) => {
         'ratingDescription': ratingDescription,
         'target': target,
         'average': average
-    }
-}
+    };
+};
 
 try {
     const { hours, target } = parseArguments(process.argv);
     console.log(calculateExercises(hours, target));
 } catch (error: unknown) {
-    let errorMessage = 'Something went wrong: '
+    let errorMessage = 'Something went wrong: ';
     if (error instanceof Error) {
         errorMessage += error.message;
     }
