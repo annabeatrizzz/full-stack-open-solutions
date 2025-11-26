@@ -1,9 +1,9 @@
-interface ExerciseValues {
+/*interface ExerciseValues {
   hours: number[];
   target: number;
-}
+}*/
 
-const parseArguments = (args: string[]): ExerciseValues => {
+/*const parseArguments = (args: string[]): ExerciseValues => {
     if (args.length < 4) throw new Error('Not enough arguments');
     if (args.length > 4) throw new Error('Too many arguments');
 
@@ -26,9 +26,9 @@ const parseArguments = (args: string[]): ExerciseValues => {
     }
 
     return { hours, target };
-};
+};*/
 
-const calculateExercises = (hours: number[], target: number) => {
+export const calculateExercises = (hours: number[], target: number) => {
 
     const periodLenght = hours.length;
 
@@ -68,7 +68,7 @@ const calculateExercises = (hours: number[], target: number) => {
     };
 };
 
-try {
+/*try {
     const { hours, target } = parseArguments(process.argv);
     console.log(calculateExercises(hours, target));
 } catch (error: unknown) {
@@ -77,4 +77,4 @@ try {
         errorMessage += error.message;
     }
     console.log(errorMessage);
-}
+}*/
