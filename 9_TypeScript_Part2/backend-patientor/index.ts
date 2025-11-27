@@ -1,5 +1,6 @@
 import express from 'express';
 import diagnosesRouter from './src/routes/diagnoses';
+import patientsRouter from './src/routes/patients';
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ app.get('/ping', (_req, res) => {
 });
 
 app.use('/diagnoses', diagnosesRouter);
+app.use('/patients', patientsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
