@@ -1,52 +1,5 @@
 import { NewPatientEntry, Gender } from './types';
-
-const isString = (text: unknown): text is string => {
-  return typeof text === 'string' || text instanceof String;
-}
-
-const parseName = (name: unknown): string => {
-  if (!isString(name)) {
-    throw new Error('Incorrect name');
-  }
-
-  return name;
-};
-
-const parseBirth = (birth: unknown): string => {
-  if (!isString(birth)) {
-    throw new Error('Incorrect date of birth');
-  }
-
-  return birth;
-};
-
-
-const parseOccupation = (occupation: unknown): string => {
-  if (!isString(occupation)) {
-    throw new Error('Incorrect date of occupation');
-  }
-
-  return occupation;
-};
-
-const parseSSN = (ssn: unknown): string => {
-  if (!isString(ssn)) {
-      throw new Error('Incorrect ssn');
-  }
-
-  return ssn;
-};
-
-const isGender = (param: string): param is Gender => {
-  return Object.values(Gender).map(g => g.toString()).includes(param);
-};
-
-const parseGender = (gender: unknown): Gender => {
-  if (!isString(gender) || !isGender(gender)) {
-      throw new Error('Incorrect gender: ' + gender);
-  }
-  return gender;
-};
+import { z } from 'zod';
 
 const toNewPatientEntry = (object: unknown): NewPatientEntry => {
     if ( !object || typeof object !== 'object' ) {
@@ -57,11 +10,11 @@ const toNewPatientEntry = (object: unknown): NewPatientEntry => {
 
     if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object && 'occupation' in object) {
         const newEntry: NewPatientEntry = {
-            name: parseName(object.name),
-            dateOfBirth: parseBirth(object.dateOfBirth),
-            ssn: parseSSN(object.ssn),
-            gender: parseGender(object.gender),
-            occupation: parseOccupation(object.occupation)
+            name: z.string().parse(object.name),
+            dateOfBirth: z.string().parse(object.dateOfBirth),
+            ssn: z.string().parse(object.ssn),
+            gender: z.nativeEnum(Gender).parse(object.gender),
+            occupation: z.string().parse(object.occupation)
         };
 
         console.log('here' , newEntry)
