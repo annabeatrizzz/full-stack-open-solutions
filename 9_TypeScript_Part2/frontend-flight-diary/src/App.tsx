@@ -10,6 +10,8 @@ function App() {
   const [comment, setComment] = useState('');
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
 
+  const [notification, setNotification] = useState('');
+
   const diaryCreation = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const diaryToAdd = {
@@ -20,11 +22,22 @@ function App() {
     }
 
     console.log(diaryToAdd)
+    
+    
     axios.post<DiaryEntry[]>('http://localhost:3000/api/diaries', diaryToAdd )
-      .then(response => {
-        setDiaries(diaries.concat(response.data));
-    })
-
+        .then(response => {
+          setDiaries(diaries.concat(response.data));
+        })
+        .catch((error: unknown) => {
+          let message = 'Failed to add '
+          if (axios.isAxiosError(error)) {
+            console.log(error.status)
+            console.error(error.response);
+            setNotification(message + error.response?.data)
+          } else {
+            console.error(error);
+          }
+        });
     setDate('')
     setWeather('')
     setVisibility('')
@@ -43,6 +56,7 @@ function App() {
       <h1>Flight Diaries</h1>
       
       <h2>Create a new diary:</h2>
+      <p>{notification}</p>
       <form onSubmit={diaryCreation}>
         <div>
           Date <input
