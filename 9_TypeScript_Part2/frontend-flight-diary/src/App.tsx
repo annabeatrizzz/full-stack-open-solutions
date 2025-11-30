@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import type { DiaryEntry } from './types'
+import { Weather, Visibility } from './types'
 
 function App() {
 
@@ -59,22 +60,43 @@ function App() {
       <p>{notification}</p>
       <form onSubmit={diaryCreation}>
         <div>
-          Date <input
+          Date <input 
+            type="date"
             value={date}
             onChange={(event) => setDate(event.target.value)}
           />
         </div>
         <div>
-          Weather <input
-            value={weather}
-            onChange={(event) => setWeather(event.target.value)}
-          />
-        </div><div>
-          Visibility <input
-            value={visibility}
-            onChange={(event) => setVisibility(event.target.value)}
-          />
-        </div><div>
+          Weather
+          {Object.values(Weather).map((v) => (
+            <label key={v}>
+              <input
+                type="radio"
+                name="weather"
+                value={v}
+                checked={weather === v}
+                onChange={() => setWeather(v)}
+              />
+              {v}
+            </label>
+          ))}
+        </div>
+        <div>
+          Visibility
+          {Object.values(Visibility).map((v) => (
+            <label key={v}>
+              <input
+                type="radio"
+                name="visibility"
+                value={v}
+                checked={visibility === v}
+                onChange={() => setVisibility(v)}
+              />
+              {v}
+            </label>
+          ))}
+        </div>
+        <div>
           Comment <input
             value={comment}
             onChange={(event) => setComment(event.target.value)}
