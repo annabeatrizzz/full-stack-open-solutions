@@ -14,7 +14,8 @@ const toNewPatientEntry = (object: unknown): NewPatientEntry => {
             dateOfBirth: z.string().parse(object.dateOfBirth),
             ssn: z.string().parse(object.ssn),
             gender: z.nativeEnum(Gender).parse(object.gender),
-            occupation: z.string().parse(object.occupation)
+            occupation: z.string().parse(object.occupation),
+            entries: []
         };
 
         console.log('here' , newEntry)
