@@ -7,9 +7,11 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.background,
+    padding: 20
   },
   text: {
     color: theme.colors.white,
+    padding: 10,
   },
   scroll: {
     flexDirection: 'row',
