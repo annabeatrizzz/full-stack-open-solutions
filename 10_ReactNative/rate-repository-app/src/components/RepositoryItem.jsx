@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 const RepositoryItem = ({ item }) => (
   <View>
+    <Image source={{uri: item.ownerAvatarUrl}}/>
     <Text>Full name: {item.fullName}</Text>
     <Text>Description: {item.description}</Text>
     <Text>Language: {item.language}</Text>

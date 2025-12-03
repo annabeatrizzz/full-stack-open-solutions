@@ -67,7 +67,12 @@ My solutions and notes to the [Full Stack Open course](https://fullstackopen.com
 
 |-- _9_TypeScript: Introduces TypeScript in React and Node apps, focusing on types, interfaces, and safer coding practices.
 
+    - TypeScript
+
 |-- _10_React-Native: Demonstrates how to build mobile apps with React Native and Expo.
+
+    - React-Native: builiding react software for native Android and iOS mobile
+    - Communicating with a server and testing functionalities
 
 |-- _11_CI/CD: Explains continuous integration and delivery pipelines using tools like GitHub Actions.
 
