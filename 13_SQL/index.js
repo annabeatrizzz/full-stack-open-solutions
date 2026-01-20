@@ -10,6 +10,18 @@ app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 
+const errorHandler = (err, req, res, next) => {
+  console.error(err.message)
+
+  if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
+    return res.status(400).json({ error: err.message })
+  }
+
+  return res.status(400).json({ error: err.message })
+}
+
+app.use(errorHandler)
+
 const start = async () => {
   await connectToDatabase()
   app.listen(PORT, () => {
