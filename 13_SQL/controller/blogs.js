@@ -2,31 +2,32 @@ const router = require('express').Router()
 
 const { Blog } = require('../models')
 
-const noteFinder = async (req, res, next) => {
-  req.note = await Note.findByPk(req.params.id)
+const blogFinder = async (req, res, next) => {
+  req.blog = await Blog.findByPk(req.params.id)
   next()
 }
 
-router.get('/:id', noteFinder, async (req, res) => {
-  if (req.note) {
-    res.json(req.note)
+router.get('/:id', blogFinder, async (req, res) => {
+  if (req.blog) {
+    res.json(req.blog)
   } else {
     res.status(404).end()
   }
 })
 
-router.delete('/:id', noteFinder, async (req, res) => {
-  if (req.note) {
-    await req.note.destroy()
+router.delete('/:id', blogFinder, async (req, res) => {
+  if (req.blog) {
+    await req.blog.destroy()
   }
   res.status(204).end()
 })
 
-router.put('/:id', noteFinder, async (req, res) => {
-  if (req.note) {
-    req.note.important = req.body.important
-    await req.note.save()
-    res.json(req.note)
+router.put('/:id', blogFinder, async (req, res) => {
+  if (req.blog) {
+    req.blog.important = req.body.important
+    req.blog.likes = req.body.likes
+    await req.blog.save()
+    res.json(req.blog.likes)
   } else {
     res.status(404).end()
   }
