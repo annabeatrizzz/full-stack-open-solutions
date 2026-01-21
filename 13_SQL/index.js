@@ -7,12 +7,14 @@ const { connectToDatabase } = require('./utils/db')
 const blogsRouter = require('./controller/blogs')
 const usersRouter = require('./controller/users')
 const loginRouter = require('./controller/login')
+const authorsRouter = require('./controller/authors')
 
 app.use(express.json())
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/authors', authorsRouter)
 
 const errorHandler = (err, req, res, next) => {
   console.error(err.message)
