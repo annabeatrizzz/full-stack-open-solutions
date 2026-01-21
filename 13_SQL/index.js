@@ -17,8 +17,14 @@ app.use('/api/login', loginRouter)
 const errorHandler = (err, req, res, next) => {
   console.error(err.message)
 
-  if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeUniqueConstraintError') {
-    return res.status(400).json({ error: err.message })
+  if (err.name === 'SequelizeValidationError') {
+    const errors = err.errors.map(e => `Validation ${e.validatorKey} on ${e.path} failed`)
+    return res.status(400).json({ error: errors })
+  }
+
+  if (err.name === 'SequelizeUniqueConstraintError') {
+    const errors = err.errors.map(e => `${e.message}`)
+    return res.status(400).json({ error: errors })
   }
 
   return res.status(400).json({ error: err.message })
