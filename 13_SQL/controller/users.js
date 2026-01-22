@@ -22,6 +22,8 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
+  const { read } = req.query
+  
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: [''] },
     include: [
@@ -34,7 +36,12 @@ router.get('/:id', async (req, res) => {
       }
     ]
   })
+  
   if (user) {
+    if (read !== undefined && user.Blogs) {
+      const readValue = read === 'true'
+      user.Blogs = user.Blogs.filter(blog => blog.reading_list?.read === readValue)
+    }
     res.json(user)
   } else {
     res.status(404).end()
