@@ -36,3 +36,12 @@ export const AUTHENTICATE = gql`
     }
   }
 `;
+
+export const ME = gql`
+  query Me {
+    me {
+      id
+      username
+    }
+  }
+`;

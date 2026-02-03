@@ -28,10 +28,13 @@ const createApolloClient = (authStorage) => {
       };
     }
   });
+
+  const httpLink = new HttpLink({
+    uri: Constants.expoConfig.extra.ApolloUri,
+  });
+
   return new ApolloClient({
-    link: new HttpLink({
-      uri: Constants.expoConfig.extra.ApolloUri,
-    }),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 };
