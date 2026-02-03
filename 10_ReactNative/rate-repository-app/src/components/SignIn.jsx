@@ -2,6 +2,7 @@ import { Text, TextInput, StyleSheet, Pressable, View } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+import AuthStorage from '../utils/authStorage';
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -34,6 +35,7 @@ const initialValues = {
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const authStorage = new AuthStorage();
 
   const onSubmit = async (values) => {
     const { username, password } = values;
@@ -41,6 +43,10 @@ const SignIn = () => {
     try {
       const { data } = await signIn({ username, password });
       console.log(data);
+      if (data?.authenticate?.accessToken) {
+        await authStorage.setAccessToken(data.authenticate.accessToken);
+        console.log('Access token saved');
+      }
     } catch (e) {
       console.log(e);
     }
@@ -89,10 +95,6 @@ const SignIn = () => {
       </Pressable>
     </View>
   );
-};
-
-const onSubmit = (values) => {
-  console.log(values);
 };
 
 export default SignIn;
