@@ -1,6 +1,7 @@
 import { Text, TextInput, StyleSheet, Pressable, View } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -31,11 +32,24 @@ const initialValues = {
   password: '',
 };
 
-const SignIn = ({onSubmit}) => {
+const SignIn = () => {
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: onSubmit || ((values) => console.log(values)),
+    onSubmit,
   });
 
   return (
