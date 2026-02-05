@@ -30,7 +30,7 @@ const sizeFormatter = (value) => {
 }
 
 const RepositoryItem = ({ item }) => (
-  <View>
+  <View testID="repositoryItem">
     <View style={styles.flexRow}>
       <Image source={{uri: item.ownerAvatarUrl}}/>
       <View style={styles.flexClumn}>
