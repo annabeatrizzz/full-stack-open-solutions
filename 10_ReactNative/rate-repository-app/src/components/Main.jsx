@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import AppBar from './AppBar'
+import MyReviews from './MyReviews'
 import RepositoryList from './RepositoryList'
 import RepositoryDetail from './RepositoryDetail'
 import ReviewForm from './ReviewForm'
@@ -23,6 +24,7 @@ const Main = () => {
         <Route path="/" element={<RepositoryList />} />
         <Route path="/repository/:repositoryId" element={<RepositoryDetail />} />
         <Route path="/createReview" element={<ReviewForm />} />
+        <Route path="/myReviews" element={<MyReviews />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

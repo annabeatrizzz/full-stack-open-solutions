@@ -1,7 +1,9 @@
 import useRepositories from '../hooks/useRepositories';
 import RepositoryItem from './RepositoryItem';
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable, TextInput } from 'react-native';
 import { useNavigate } from 'react-router-native';
+import { useDebounce } from 'use-debounce';
+import { useState } from 'react';
 
 const styles = StyleSheet.create({
   separator: {
@@ -12,8 +14,10 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
   const navigate = useNavigate();
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [debouncedValue] = useDebounce(searchKeyword, 500);
+  const { repositories } = useRepositories(debouncedValue);
 
   // Get the nodes from the edges array
   const repositoryNodes = repositories
@@ -34,7 +38,21 @@ const RepositoryList = () => {
         </Pressable>
       )}
       keyExtractor={(item) => item.id}
-    />
+      ListHeaderComponent={
+        <View style={{ padding: 10 }}>
+          <TextInput
+            placeholder="Search repositories"
+            value={searchKeyword}
+            onChangeText={setSearchKeyword}
+            style={{
+              backgroundColor: '#eee',
+              padding: 10,
+              borderRadius: 5,
+            }}
+          />
+        </View>
+      }
+  />
   );
 };
 

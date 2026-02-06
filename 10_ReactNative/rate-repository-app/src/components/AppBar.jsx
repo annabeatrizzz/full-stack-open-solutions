@@ -46,6 +46,9 @@ const AppBar = () => {
             <Link to="/createReview">
               <Text style={styles.text}>Create a review</Text>
             </Link>
+            <Link to="/myReviews">
+              <Text style={styles.text}>My reviews</Text>
+            </Link>
             <Pressable onPress={onSignOut}>
               <Text style={styles.text}>Sign Out</Text>
             </Pressable>
